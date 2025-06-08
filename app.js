@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.get("/api", (req, res) => {
     res.status(200)
-    .send( endpoints );
+    .send( { endpoints } );
 });
 
 
@@ -41,6 +41,17 @@ app.get("/api/articles", async (req, res, next) => {
             ORDER BY articles.created_at DESC;`)
         res.status(200)
         .send( { articles: result.rows } )
+    } catch(err) {
+        next(err);
+    }
+});
+
+
+app.get("/api/users", async (req, res, next) => {
+    try {
+        const result = await db.query('SELECT username, name, avatar_url FROM users;')
+        res.status(200)
+        .send( { users: result.rows } )
     } catch(err) {
         next(err);
     }

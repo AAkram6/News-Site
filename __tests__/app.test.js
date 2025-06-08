@@ -39,7 +39,7 @@ describe("GET /api/topics", () => {
 });
 
 
-describe.only("GET /api/articles", () => {
+describe("GET /api/articles", () => {
   test("200: Responds with an array of all article objects", () => {
     return request(app)
       .get("/api/articles")
@@ -59,6 +59,30 @@ describe.only("GET /api/articles", () => {
           expect(typeof article.votes).toBe('number');
           expect(typeof article.article_img_url).toBe('string');
           expect(typeof article.comment_count).toBe('number');
+        });
+      
+      });
+  });
+});
+
+
+
+
+describe.only("GET /api/users", () => {
+  test("200: Responds with an array of all user objects", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(( { body } ) => {
+        const { users } = body;
+
+        expect(Array.isArray(users)).toBe(true);
+        expect(users.length).toBeGreaterThan(0);
+
+        users.forEach((user) => {
+          expect(typeof user.username).toBe('string');
+          expect(typeof user.name).toBe('string');
+          expect(typeof user.avatar_url).toBe('string');
         });
       
       });
